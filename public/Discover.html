@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Imprima&display=swap" rel="stylesheet">
+    <!-- Use the PixiJS library from the npm package -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js"></script>
+
+    <title>Discover Galaxy</title>
+    
+</head>
+<body class="flex items-center justify-center min-h-screen bg-[#FFDE95]">
+    <div class="text-center">
+        <h1 class="font-imprima text-white text-6xl font-bold mb-6">Explore Different Planets</h1>
+        <!-- Create a container for the PixiJS canvas -->
+        <div id="pixi-container"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create a PixiJS application
+            const app = new PIXI.Application({
+                width: 800,
+                height: 600,
+                backgroundColor: 0xffde95, // Background color (blue)
+            });
+
+            // Append the PixiJS canvas to the container
+            document.getElementById('pixi-container').appendChild(app.view);
+
+            // Create an array to hold the shapes, their colors, and corresponding URLs
+            const shapes = [
+                { name: "Jupiter", color: 0xad5e47, url: 'file:///C:/Users/Admin/Desktop/UebMultimedia/public/moon.html' }, // Jupiter color and URL
+                { name: "Mars", color: 0xe39068, url: 'https://example.com/mars' }, // Mars color and URL
+                { name: "Neptune", color: 0x2c79aa, url: 'https://example.com/neptune' }, // Neptune color and URL
+                { name: "Moon", color: 0xe3e3e3, url: 'https://example.com/moon' }, // Moon color and URL
+            ];
+
+            // Create shapes and add them to the stage
+            const shapesSprites = [];
+            const texts = [];
+            shapes.forEach((shapeInfo, i) => {
+                const shape = new PIXI.Graphics();
+                shape.beginFill(shapeInfo.color);
+                shape.drawCircle(0, 0, 70); // Draw a circle
+                shape.endFill();
+
+                // Set initial position
+                shape.x = Math.random() * 700 + 50; // Random position within canvas width
+                shape.y = Math.random() * 500 + 50; // Random position within canvas height
+
+                // Make shape clickable
+                shape.interactive = true;
+
+                // Add click event listener
+                shape.on('click', () => {
+                    // Redirect to the corresponding URL
+                    window.location.href = shapeInfo.url;
+                });
+
+                // Add shape to the stage
+                app.stage.addChild(shape);
+
+                // Add shape to the array
+                shapesSprites.push(shape);
+
+                // Add text label with shape name
+                const text = new PIXI.Text(shapeInfo.name, { fontFamily: 'Imprima', fontSize: 20, fill: 0xffffff }); // White color
+                text.anchor.set(0.5);
+
+                // Set initial position
+                text.x = shape.x;
+                text.y = shape.y;
+
+                // Add text to the stage
+                app.stage.addChild(text);
+
+                // Add text to the array
+                texts.push(text);
+            });
+
+            // Animation loop
+            app.ticker.add(() => {
+                // Move shapes and text smoothly
+                shapesSprites.forEach((shape, i) => {
+                    // Move horizontally
+                    shape.x += Math.sin(app.ticker.lastTime / 1000 + i * Math.PI / 2) * 2;
+                    // Move vertically
+                    shape.y += Math.cos(app.ticker.lastTime / 1000 + i * Math.PI / 2) * 2;
+
+                    // Ensure shapes stay within canvas bounds
+                    shape.x = Math.max(60, Math.min(app.renderer.width - 60, shape.x));
+                    shape.y = Math.max(60, Math.min(app.renderer.height - 60, shape.y));
+
+                    // Update text position
+                    texts[i].x = shape.x;
+                    texts[i].y = shape.y;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
