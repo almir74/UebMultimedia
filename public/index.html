@@ -3,22 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Imprima&display=swap" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Gastronomic Galaxy</title>
+    <style>
+        /* Spinner animation */
+        .spinner {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-[#FFDE95]">
+<body class="flex items-center justify-center min-h-screen bg-[#FFDE95] relative">
     <div class="text-center">
         <h1 class="font-imprima text-white text-6xl font-bold mb-6">Gastronomic Galaxy</h1>
-        <div class=" text-xl font-medium text-white font-imprima p-4 bg-[#F075AA] inline-block rounded-md">
-            <a href="Discover.html" class="font-imprima">
-                <button class="font-imprima">Enter Galaxy</button>
-            </a>
+        <div class="text-xl font-medium text-white font-imprima p-4 bg-[#F075AA] inline-block rounded-md">
+            <button id="enter-galaxy" class="font-imprima">Enter Galaxy</button>
         </div>
     </div>
-    <img src="image/carton.png" alt="astronaut Image" class=" absolute bottom-20 right-20 w-86 h-72 mr-20">
+    <img src="image/carton.png" alt="astronaut Image" class="absolute bottom-20 right-20 w-86 h-72 mr-20">
+
+    <!-- Preloader -->
+    <div id="preloader" class="hidden fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        document.getElementById('enter-galaxy').addEventListener('click', function() {
+            // Shfaq preloader-in
+            document.getElementById('preloader').classList.remove('hidden');
+            
+            // Vono ridrejtimin për 5 sekonda (5000 milisekonda)
+            setTimeout(function() {
+                window.location.href = 'Discover.html';
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
